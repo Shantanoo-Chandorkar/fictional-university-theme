@@ -1,0 +1,9 @@
+# Modules
+node_modules/
+vendor/
+var/
+build/
+
+# Lock files
+package-lock.json
+composer.lock

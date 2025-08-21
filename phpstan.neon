@@ -1,0 +1,21 @@
+includes:
+    - vendor/szepeviktor/phpstan-wordpress/extension.neon
+
+parameters:
+    level: max
+    paths:
+        - /
+    
+    excludePaths:
+        - vendor/*
+        - var/*
+    tmpDir: var/phpstan
+
+    reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        - '#Call to an undefined method .*#'
+
+    # Optional: Autoload extra files
+    bootstrapFiles:
+        - vendor/autoload.php
+    
