@@ -7,6 +7,8 @@
  * @package Fictional_University
  */
 
+use Fictional_University_DBHelper\DbHelper;
+
 get_header();
 
 page_banner(
@@ -21,25 +23,8 @@ page_banner(
 
 <div class="container container--narrow page-section">
     <?php
-    $today             = gmdate( 'Ymd' );
-    $past_events_query = new WP_Query(
-        array(
-            'paged'          => get_query_var( 'paged', 1 ),
-            'post_type'      => 'event',
-            'posts_per_page' => 1,
-            'meta_key'       => 'event_date',
-            'orderby'        => 'meta_value',
-            'order'          => 'DESC',
-            'meta_query'     => array(
-                array(
-                    'key'     => 'event_date',
-                    'compare' => '<',
-                    'value'   => $today,
-                    'type'    => 'DATE',
-                ),
-            ),
-        )
-    );
+    $past_events_query = DbHelper::get_past_events_for_past_events_page();
+
     while ( $past_events_query->have_posts() ) {
         $past_events_query->the_post();
 

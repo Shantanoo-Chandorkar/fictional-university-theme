@@ -7,6 +7,8 @@
  * @package Fictional_University
  */
 
+use Fictional_University_DBHelper\DbHelper;
+
 get_header();
 
 page_banner(
@@ -35,22 +37,7 @@ while ( have_posts() ) {
 
         <?php
 
-        $today              = gmdate( 'Ymd' );
-        $related_professors = new WP_Query(
-            array(
-                'posts_per_page' => -1,
-                'post_type'      => 'professor',
-                'orderby'        => 'title',
-                'order'          => 'ASC',
-                'meta_query'     => array(
-                    array(
-                        'key'     => 'related_programs',
-                        'compare' => 'LIKE',
-                        'value'   => '"' . get_the_ID() . '"',
-                    ),
-                ),
-            )
-        );
+        $related_professors = DbHelper::get_related_professors_for_single_program();
 
         if ( $related_professors->have_posts() ) {
             $upcoming_events_title_markup = '<hr class="section-break">
@@ -79,45 +66,24 @@ while ( have_posts() ) {
             wp_reset_postdata();
         }
 
-        $homepage_events = new WP_Query(
-            array(
-                'posts_per_page' => -1,
-                'post_type'      => 'event',
-                'meta_key'       => 'event_date',
-                'orderby'        => 'meta_value_num',
-                'order'          => 'ASC',
-                'meta_query'     => array(
-                    array(
-                        'key'     => 'event_date',
-                        'compare' => '>=',
-                        'value'   => $today,
-                        'type'    => 'DATE',
-                    ),
-                    array(
-                        'key'     => 'related_programs',
-                        'compare' => 'LIKE',
-                        'value'   => '"' . get_the_ID() . '"',
-                    ),
-                ),
-            )
-        );
+        $homepage_events = DbHelper::get_homepage_events_for_single_program();
 
-    if ( $homepage_events->have_posts() ) {
-            $upcoming_events_markup = '<hr class="section-break">
-            <h2 class="headline headline--medium">
-                ' . esc_html( 'Upcoming ' . get_the_title() . ' Events' ) . '
-            </h2>';
+        if ( $homepage_events->have_posts() ) {
+                $upcoming_events_markup = '<hr class="section-break">
+                <h2 class="headline headline--medium">
+                    ' . esc_html( 'Upcoming ' . get_the_title() . ' Events' ) . '
+                </h2>';
 
-        echo wp_kses_post( $upcoming_events_markup );
-        while ( $homepage_events->have_posts() ) {
-                $homepage_events->the_post();
+            echo wp_kses_post( $upcoming_events_markup );
+            while ( $homepage_events->have_posts() ) {
+                    $homepage_events->the_post();
 
-            get_template_part( 'template-parts/content', 'event' );
-        }
+                get_template_part( 'template-parts/content', 'event' );
+            }
 
             wp_reset_postdata();
-    }
-    ?>
+        }
+        ?>
 
     </div>
 

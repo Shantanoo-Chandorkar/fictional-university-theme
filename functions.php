@@ -10,6 +10,11 @@
 define( 'FICTIONAL_UNIVERSITY_THEME_VERSION', '1.0.0' );
 define( 'FICTIONAL_UNIVERSITY_THEME_DIR', get_template_directory() );
 
+// Load Composer autoloader if present.
+if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
+    require_once __DIR__ . '/vendor/autoload.php';
+}
+
 require get_theme_file_path( '/inc/search-route.php' );
 
 /**

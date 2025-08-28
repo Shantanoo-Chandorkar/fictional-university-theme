@@ -7,6 +7,8 @@
  * @package Fictional_University
  */
 
+use Fictional_University_DBHelper\DbHelper;
+
 get_header(); ?>
 
 <div class="page-banner">
@@ -39,24 +41,7 @@ get_header(); ?>
             </h2>
 
             <?php
-            $today           = gmdate( 'Ymd' );
-            $homepage_events = new WP_Query(
-                array(
-                    'posts_per_page' => -1,
-                    'post_type'      => 'event',
-                    'meta_key'       => 'event_date',
-                    'orderby'        => 'meta_value_num',
-                    'order'          => 'ASC',
-                    'meta_query'     => array(
-                        array(
-                            'key'     => 'event_date',
-                            'compare' => '>=',
-                            'value'   => $today,
-                            'type'    => 'DATE',
-                        ),
-                    ),
-                )
-            );
+            $homepage_events = DbHelper::get_homepage_events_for_front_page();
 
             while ( $homepage_events->have_posts() ) {
                 $homepage_events->the_post();
@@ -75,12 +60,7 @@ get_header(); ?>
             <h2 class="headline headline--small-plus t-center">From Our Blogs</h2>
             <?php
 
-            $homepage_posts = new WP_Query(
-                array(
-                    'posts_per_page' => 2,
-                    'post_type'      => 'post',
-                )
-            );
+            $homepage_posts = DBHelper::get_homepage_posts_for_front_page();
 
             while ( $homepage_posts->have_posts() ) {
                     $homepage_posts->the_post();

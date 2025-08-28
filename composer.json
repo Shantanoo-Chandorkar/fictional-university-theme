@@ -5,7 +5,8 @@
         "psr-4": {
             "Fictional_University\\": "/",
             "Fictional_University_Src\\": "/src",
-            "Fictional_University_Inc\\": "/inc"
+            "Fictional_University_Inc\\": "/inc",
+            "Fictional_University_DBHelper\\": "/helper/dbhelper"
         }
     },
     "authors": [

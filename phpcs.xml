@@ -12,6 +12,8 @@
     <rule ref="WordPress">
         <!-- Disable the "Spaces instead of Tabs" error -->
         <exclude name="Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed"/>
+        <exclude name="WordPress.Files.FileName.NotHyphenatedLowercase" />
+        <exclude name="WordPress.Files.FileName.InvalidClassFileName" />
     </rule>
 
     <!-- Optional: Set tab width and encoding -->
